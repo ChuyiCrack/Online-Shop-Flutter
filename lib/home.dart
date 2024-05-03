@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:online_shop/catalog.dart';
 import 'consoles.dart';
+import 'product_detail.dart';
+import 'homeWidgets.dart';
+import 'shoppingCart.dart';
 
-class HomePageStatefulWidget extends StatefulWidget{
-   const HomePageStatefulWidget({super.key});
+class HomePageStatefulWidget extends StatefulWidget {
+  const HomePageStatefulWidget({super.key});
 
   @override
   State<HomePageStatefulWidget> createState() => HomePageStatelessWidgetState();
@@ -19,76 +22,37 @@ class HomePageStatelessWidgetState extends State<HomePageStatefulWidget> {
 
   late String selected;
 
+  List listWidgets = const [
+    homeWidget(),
+    cartStatefull(),
+  ];
+
+  int currentPage = 0;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     selected = filters[0];
-
   }
 
-  OutlineInputBorder borderSearch(){
-    return const OutlineInputBorder(
-      borderRadius: BorderRadius.only(topLeft: Radius.circular(20) , bottomLeft:Radius.circular(20)),
-      borderSide:BorderSide(width: 2 ,
-      color: Color.fromARGB(255, 82, 82, 82))
-
-    );
-  }
-
-  @override 
-  Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text("Console \nCollection" , style: TextStyle(fontWeight:FontWeight.w600 , fontSize: 25),),
-                ),
-                Expanded(child: TextField(decoration: InputDecoration(hintText: 'Search' , hintStyle: const TextStyle(fontWeight: FontWeight.w600) ,prefixIcon: const Icon(Icons.search , size: 18,),enabledBorder:borderSearch(),focusedBorder: borderSearch()))), //What does Expanded do its say to the widget take the most space that it can take
-              ],
-            ),
-          SizedBox(
-            height: 60,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: filters.length,
-              itemBuilder: (context, index){
-                return Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selected = filters[index];
-                      });
-                    },
-                    child: Chip(
-                      backgroundColor: selected == filters[index] ? const Color.fromARGB(166, 224, 224, 224) : const Color.fromARGB(166, 255, 255, 255) ,
-                      padding: const EdgeInsets.symmetric(horizontal: 15 , vertical: 10),
-                      label: Text(filters[index],
-                      style: const TextStyle(fontSize: 18),),),
-                  ),
-                );
-            },
-            ),
-          ),
-           Expanded(
-            child: ListView.builder(
-              itemCount: catalog.length,
-              itemBuilder: (context , index){
-                return consoleProduct(
-                  productName: catalog[index]['name'] as String,
-                 price:catalog[index]['price'].toDouble(),
-                 linkImage:catalog[index]['imageLink'] as String,
-                 );
-            }
-            ),
-
-          )
+        body: listWidgets[currentPage],
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: const Color.fromARGB(188, 138, 213, 226),
+          onTap: (value) {
+            setState(() {
+              currentPage = value;
+            });
+          },
+          currentIndex: currentPage,
+          selectedFontSize: 0,
+          unselectedFontSize: 0,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: '')
           ],
-        ),
-      )
-    );
+        ));
   }
 }
