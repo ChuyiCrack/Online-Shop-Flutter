@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -51,20 +52,48 @@ class paymentState extends State<paymentStatefull> {
           Row(
             children: [
               Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(left: 20, right: 10),
-                  decoration: boxinputDecoration(),
-                  child: TextField(
-                    decoration: inputDecoration('gg'),
-                  ),
+                  child: Container(
+                margin: const EdgeInsets.only(left: 20, right: 10),
+                decoration: boxinputDecoration(),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: const TextField(
+                        maxLength: 2,
+                        decoration: InputDecoration(
+                            focusedBorder: InputBorder.none,
+                            hintText: 'MM',
+                            counterText: ''),
+                        textAlign: TextAlign.center,
+                      ),
+                    )),
+                    const Text(
+                      '/',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Expanded(
+                        child: Container(
+                      child: TextField(
+                        maxLength: 4,
+                        decoration: const InputDecoration(
+                            focusedBorder: InputBorder.none,
+                            hintText: 'YYYY',
+                            counterText: ''),
+                        textAlign: TextAlign.center,
+                      ),
+                    )),
+                  ],
                 ),
-              ),
+              )),
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(left: 10, right: 20),
                   decoration: boxinputDecoration(),
                   child: TextField(
-                    decoration: inputDecoration('gg'),
+                    maxLength: 4,
+                    decoration: inputDecoration('CV'),
                   ),
                 ),
               ),
