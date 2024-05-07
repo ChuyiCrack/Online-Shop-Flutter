@@ -1,12 +1,14 @@
+library home;
 import 'package:flutter/material.dart';
-import 'package:online_shop/catalog.dart';
-import 'consoles.dart';
-import 'product_detail.dart';
 import 'homeWidgets.dart';
 import 'shoppingCart.dart';
+import 'profile.dart';
+
+
 
 class HomePageStatefulWidget extends StatefulWidget {
   const HomePageStatefulWidget({super.key});
+
 
   @override
   State<HomePageStatefulWidget> createState() => HomePageStatelessWidgetState();
@@ -25,9 +27,17 @@ class HomePageStatelessWidgetState extends State<HomePageStatefulWidget> {
   List listWidgets = const [
     homeWidget(),
     cartStatefull(),
+    profileStateful()
   ];
 
-  int currentPage = 0;
+  int _currentPage = 0;
+
+
+  void changeCurrPage(int newValue){
+    setState(() {
+      _currentPage = newValue;
+    });
+}
 
   @override
   void initState() {
@@ -38,20 +48,23 @@ class HomePageStatelessWidgetState extends State<HomePageStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: listWidgets[currentPage],
+        body: listWidgets[_currentPage],
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: const Color.fromARGB(188, 138, 213, 226),
           onTap: (value) {
             setState(() {
-              currentPage = value;
+              print(value);
+              _currentPage = value;
             });
           },
-          currentIndex: currentPage,
+          currentIndex: _currentPage,
           selectedFontSize: 0,
           unselectedFontSize: 0,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: '')
+            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+
           ],
         ));
   }
